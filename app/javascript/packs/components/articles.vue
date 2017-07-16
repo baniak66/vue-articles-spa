@@ -1,16 +1,35 @@
 <template>
   <div class="articles">
-    <h3>{{title}}</h3>
-    <input type="text" v-model="title">
+    <ul>
+      <li v-for="article in articles">{{article.content}} [{{article.created_at}}]</li>
+    </ul>
   </div>
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: 'articles',
     data () {
       return {
-        title: "Siema vue z articles component"
+        articles: []
+      }
+    },
+    created: function() {
+      this.getArticles();
+    },
+    methods: {
+      getArticles: function () {
+        var vm = this;
+        axios.get('/articles.json')
+          .then(function (response) {
+            console.log(response.data)
+            vm.articles = response.data
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
       }
     }
   }
@@ -18,3 +37,4 @@
 
 <style scoped>
 </style>
+
