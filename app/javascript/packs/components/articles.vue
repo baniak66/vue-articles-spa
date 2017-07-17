@@ -1,7 +1,10 @@
 <template>
   <div class="articles">
     <ul>
-      <li v-for="article in articles">{{article.content}} [{{article.created_at}}]</li>
+      <li v-for="article in articles">
+        {{article.content}} [{{article.created_at}}]
+        <button v-on:click="deleteArticle(article)">X</button>
+      </li>
     </ul>
     <form v-on:submit="addArticle">
       <input type="text" v-model="newArticle.content"><br/>
@@ -59,6 +62,17 @@
           console.log(error)
         })
         e.preventDefault()
+      },
+      deleteArticle: function (article) {
+        var vm = this;
+        axios.delete('/articles/'+ article.id)
+        .then(function (response) {
+          console.log(response.data)
+          vm.articles.splice(vm.articles.indexOf(article),1);
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
       }
     }
   }

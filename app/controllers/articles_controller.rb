@@ -17,6 +17,13 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def destroy
+    @article = Article.find(params[:id])
+    if @article.delete
+      render :json => @article
+    end
+  end
+
   private
 
   def article_params
