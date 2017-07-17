@@ -3,17 +3,27 @@
     <ul>
       <li v-for="article in articles">{{article.content}} [{{article.created_at}}]</li>
     </ul>
+    <form v-on:submit="addArticle">
+      <input type="text" v-model="newArticle.content"><br/>
+      <input type="submit" value="Submit">
+    </form>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
+  let token = document.getElementsByName('csrf-token')[0].getAttribute('content')
+  axios.defaults.headers.common['X-CSRF-Token'] = token
+  axios.defaults.headers.common['Accept'] = 'application/json'
 
   export default {
     name: 'articles',
     data () {
       return {
-        articles: []
+        articles: [],
+        newArticle: {
+          content: ""
+        }
       }
     },
     created: function() {
@@ -23,13 +33,32 @@
       getArticles: function () {
         var vm = this;
         axios.get('/articles.json')
-          .then(function (response) {
-            console.log(response.data)
-            vm.articles = response.data
+        .then(function (response) {
+          console.log(response.data)
+          vm.articles = response.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      },
+      addArticle: function (e) {
+        var vm = this;
+        axios.post('/articles', {
+          article: this.newArticle,
           })
-          .catch(function (error) {
-            console.log(error)
+        .then(function (response) {
+          vm.articles.push({
+            content: response.data.content,
+            created_at: response.data.created_at,
+            id: response.data.id
           })
+          console.log(response.data)
+          vm.newArticle = ""
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+        e.preventDefault()
       }
     }
   }
