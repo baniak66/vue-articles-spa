@@ -1,9 +1,9 @@
 <template>
-  <div class="articles">
+  <div class="articles container">
     <ul>
       <li v-for="article in articles">
         {{article.content}} [{{article.created_at}}]
-        <button v-on:click="deleteArticle(article)">X</button>
+        <button v-on:click="deleteArticle(article)" class="btn btn-primary">X</button>
       </li>
     </ul>
     <form v-on:submit="addArticle">

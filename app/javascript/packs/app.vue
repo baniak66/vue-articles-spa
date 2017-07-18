@@ -1,12 +1,14 @@
 <template>
   <div id="app">
     <p>{{ message }}</p>
+    <hdr></hdr>
     <articles></articles>
   </div>
 </template>
 
 <script>
 import Articles from './components/articles'
+import Hdr from './components/hdr.vue.erb'
 
 export default {
   data: function () {
@@ -15,7 +17,7 @@ export default {
     }
   },
   components: {
-    Articles
+    Articles, Hdr
   }
 }
 </script>

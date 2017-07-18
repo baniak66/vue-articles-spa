@@ -1,0 +1,25 @@
+<% helpers = ActionController::Base.helpers %>
+<template>
+  <div class="hdr">
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><%= helpers.link_to "Articles", "#" %></a>
+        </div>
+        <form class="navbar-form navbar-right">
+          <button class="btn btn-default">Login with Facebook</button>
+          <button class="btn btn-default">Login with GitHub</button>
+        </form>
+      </div>
+    </nav>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'hdr',
+    data () {
+      return {}
+    }
+  }
+</script>
