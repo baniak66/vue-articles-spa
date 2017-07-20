@@ -6,7 +6,12 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="#"><%= helpers.link_to "Articles", "#" %></a>
         </div>
-        <form class="navbar-form navbar-right">
+        <div>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" v-if="name != '' ">{{name}}</a></li>
+          </ul>
+        </div>
+        <form class="navbar-form navbar-right" v-if="name == ''">
           <button class="btn btn-default"><%= helpers.link_to 'Facebook', '/auth/facebook' %></button>
           <button class="btn btn-default">Login with GitHub</button>
         </form>
@@ -16,10 +21,19 @@
 </template>
 
 <script>
+  var user = document.getElementById("user-status")
+  if (user != null) {
+    var user_name = JSON.parse(user.dataset.userName)
+  } else {
+    var user_name = ""
+  }
+
   export default {
     name: 'hdr',
     data () {
-      return {}
+      return {
+        name: user_name
+      }
     }
   }
 </script>

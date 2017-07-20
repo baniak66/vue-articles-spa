@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <p>{{ message }}</p>
     <hdr></hdr>
     <articles></articles>
   </div>

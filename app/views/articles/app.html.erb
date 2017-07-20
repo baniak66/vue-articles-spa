@@ -1,1 +1,10 @@
+<% if current_user %>
+  <%= content_tag :div,
+    id: "user-status",
+    data: {
+      user_name: current_user.name.to_json,
+      user_id: current_user.id.to_json
+    } do %>
+  <% end %>
+<% end %>
 <%= javascript_pack_tag 'hello_vue' %>

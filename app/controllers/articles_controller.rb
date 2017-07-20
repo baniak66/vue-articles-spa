@@ -1,13 +1,11 @@
 class ArticlesController < ApplicationController
 
-  respond_to :json
-
   def app
   end
 
   def index
     @articles = Article.all
-    respond_with :json, @articles
+    render :json => @articles
   end
 
   def create
