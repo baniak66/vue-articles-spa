@@ -7,8 +7,13 @@
           <a class="navbar-brand" href="#"><%= helpers.link_to "Articles", "#" %></a>
         </div>
         <div>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" v-if="name != '' ">{{name}}</a></li>
+          <ul class="nav navbar-nav navbar-right" v-if="name != ''" >
+            <li><a href="#">{{name}}</a></li>
+            <li>
+              <a href="" v-on:click="logout">
+                <%= helpers.link_to 'Logout', '/logout', method: :delete %>
+              </a>
+            </li>
           </ul>
         </div>
         <form class="navbar-form navbar-right" v-if="name == ''">
@@ -33,6 +38,13 @@
     data () {
       return {
         name: user_name
+      }
+    },
+    methods: {
+      logout: function() {
+        console.log("zaczynam logout")
+        this.name = ""
+        console.log("koncze logout")
       }
     }
   }
