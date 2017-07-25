@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
 
+  before_action :authenticate, only: :create
   def app
   end
 
@@ -26,6 +27,12 @@ class ArticlesController < ApplicationController
 
   def article_params
     params.require(:article).permit(:content)
+  end
+
+  def authenticate
+    unless current_user
+      render json: { "error": { "message": "Authentication problem" } }, status: 401
+    end
   end
 
 end
