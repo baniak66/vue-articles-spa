@@ -11,7 +11,7 @@
         </ul>
       </div>
     </div>
-    <form v-on:submit="addArticle">
+    <form v-on:submit="addArticle" >
       <input type="text" v-model="newArticle.content"><br/>
       <input type="submit" value="Submit">
     </form>
@@ -30,7 +30,6 @@
     name: 'articles',
     data () {
       return {
-
         newArticle: {
           content: ""
         }
@@ -43,47 +42,13 @@
       this.$store.dispatch('LOAD_ARTICLE_LIST')
     },
     methods: {
-      getArticles: function () {
-        var vm = this;
-        axios.get('/articles.json')
-        .then(function (response) {
-          console.log(response.data)
-          vm.articles = response.data
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-      },
       addArticle: function (e) {
-        var vm = this;
-        axios.post('/articles', {
-          article: this.newArticle,
-          })
-        .then(function (response) {
-          vm.articles.push({
-            content: response.data.content,
-            created_at: response.data.created_at,
-            id: response.data.id
-          })
-          console.log(response.data)
-          vm.newArticle = ""
-        })
-        .catch(function (error) {
-          console.log(error.response)
-          vm.newArticle = ""
-        })
+        this.$store.dispatch('ADD_NEW_ARTICLE', this.newArticle)
         e.preventDefault()
       },
       deleteArticle: function (article) {
-        var vm = this;
-        axios.delete('/articles/'+ article.id)
-        .then(function (response) {
-          console.log(response.data)
-          vm.articles.splice(vm.articles.indexOf(article),1);
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+        this.$store.dispatch('DELETE_ARTICLE', article.id)
+
       }
     }
   }
