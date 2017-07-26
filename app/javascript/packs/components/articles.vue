@@ -24,18 +24,23 @@
   axios.defaults.headers.common['X-CSRF-Token'] = token
   axios.defaults.headers.common['Accept'] = 'application/json'
 
+  import { mapState } from 'vuex'
+
   export default {
     name: 'articles',
     data () {
       return {
-        articles: [],
+
         newArticle: {
           content: ""
         }
       }
     },
-    created: function() {
-      this.getArticles();
+    computed: mapState([
+      'articles'
+    ]),
+    mounted: function () {
+      this.$store.dispatch('LOAD_ARTICLE_LIST')
     },
     methods: {
       getArticles: function () {
