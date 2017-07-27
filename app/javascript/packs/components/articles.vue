@@ -1,16 +1,6 @@
 <template>
   <div class="articles container">
-    <div class="panel panel-default" v-for="article in articles">
-      <div class="panel-heading">
-        {{article.content}} [{{article.created_at}}]
-        <button v-on:click="deleteArticle(article)" class="btn btn-primary">X</button>
-      </div>
-      <div class="panel-body">
-        <ul>
-          <li v-for="comment in article.comments">{{comment.name}}</li>
-        </ul>
-      </div>
-    </div>
+    <art v-for="article in articles" :article="article"></art>
     <form v-on:submit="addArticle" >
       <input type="text" v-model="newArticle.content"><br/>
       <input type="submit" value="Submit">
@@ -20,9 +10,13 @@
 
 <script>
   import { mapState } from 'vuex'
+  import Art from './art'
 
   export default {
     name: 'articles',
+    components: {
+      Art
+    },
     data () {
       return {
         newArticle: {
@@ -40,10 +34,10 @@
       addArticle: function (e) {
         this.$store.dispatch('ADD_NEW_ARTICLE', this.newArticle)
         e.preventDefault()
+        this.newArticle = ""
       },
       deleteArticle: function (article) {
         this.$store.dispatch('DELETE_ARTICLE', article.id)
-
       }
     }
   }
