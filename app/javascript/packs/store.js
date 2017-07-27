@@ -34,6 +34,13 @@ const store = new Vuex.Store({
         console.log(err)
       })
     },
+    ADD_NEW_COMMENT: function ({ commit }, payload) {
+      axios.post('/articles/' + payload.id + '/comments', {name: payload.name}).then((response) => {
+        commit('ADD_COMMENT', { comment: response.data })
+      }, (err) => {
+        console.log(err)
+      })
+    },
   },
   mutations: {
     SET_ARTICLE_LIST: (state, { list }) => {
@@ -44,7 +51,12 @@ const store = new Vuex.Store({
     },
     REMOVE_ARTICLE: (state, { article }) => {
       state.articles.splice(state.articles.indexOf(article),1);
-    }
+    },
+    ADD_COMMENT: (state, { comment }) => {
+      var comments = state.articles.filter(function(art) { return art.id == comment.article_id})
+      comments[0].comments.push(comment)
+    },
+
   },
   getters: {
     openArticles: state => {
