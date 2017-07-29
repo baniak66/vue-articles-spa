@@ -12,7 +12,7 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.create(article_params)
     if @article.save
-      render :json => @article
+      render :json => @article, :include => [:comments]
     end
   end
 
