@@ -6,6 +6,12 @@ let token = document.getElementsByName('csrf-token')[0].getAttribute('content')
 axios.defaults.headers.common['X-CSRF-Token'] = token
 axios.defaults.headers.common['Accept'] = 'application/json'
 
+function search(arry, art_id) {
+  for (var i=0; i < arry.length; i++) {
+    if (arry[i].id === art_id) { return i }
+  }
+}
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -21,7 +27,7 @@ const store = new Vuex.Store({
       })
     },
     ADD_NEW_ARTICLE: function ({ commit }, payload) {
-      axios.post('/articles', payload).then((response) => {
+      axios.post('/articles', {content: payload}).then((response) => {
         commit('ADD_ARTICLE', { article: response.data })
       }, (err) => {
         console.log(err)
@@ -29,6 +35,7 @@ const store = new Vuex.Store({
     },
     DELETE_ARTICLE: function ({ commit }, payload) {
       axios.delete('/articles/' + payload).then((response) => {
+        console.log("article no: " + response.data.id + " removed from db")
         commit('REMOVE_ARTICLE', { article: response.data })
       }, (err) => {
         console.log(err)
@@ -37,6 +44,13 @@ const store = new Vuex.Store({
     ADD_NEW_COMMENT: function ({ commit }, payload) {
       axios.post('/articles/' + payload.id + '/comments', {name: payload.name}).then((response) => {
         commit('ADD_COMMENT', { comment: response.data })
+      }, (err) => {
+        console.log(err)
+      })
+    },
+    DELETE_COMMENT: function ({ commit }, payload) {
+      axios.delete('/articles/' + payload.article_id + '/comments/' + payload.comment_id).then((response) => {
+        commit('REMOVE_COMMENT', { comment: response.data })
       }, (err) => {
         console.log(err)
       })
@@ -50,13 +64,27 @@ const store = new Vuex.Store({
       state.articles.push(article)
     },
     REMOVE_ARTICLE: (state, { article }) => {
-      state.articles.splice(state.articles.indexOf(article),1);
+      var all_articles = state.articles
+      // function search(arry, art_id) {
+      //   for (var i=0; i < arry.length; i++) {
+      //     if (arry[i].id === art_id) { return i }
+      //   }
+      // }
+      state.articles.splice(search(all_articles, article.id),1);
     },
     ADD_COMMENT: (state, { comment }) => {
       var comments = state.articles.filter(function(art) { return art.id == comment.article_id})
       comments[0].comments.push(comment)
     },
-
+    REMOVE_COMMENT: (state, { comment }) => {
+      var article_comments = state.articles.filter(function(art) { return art.id == comment.article_id})[0]
+      // function search(arry, art_id) {
+      //   for (var i=0; i < arry.length; i++) {
+      //     if (arry[i].id === art_id) { return i }
+      //   }
+      // }
+      article_comments.comments.splice(search(article_comments.comments, comment.id),1);
+    }
   },
   getters: {
     openArticles: state => {
