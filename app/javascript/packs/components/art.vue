@@ -3,7 +3,8 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         {{article.content}} [{{article.created_at}}] ({{article.id}})
-        <button v-on:click="deleteArticle(article)" class="btn btn-primary">X</button>
+        <button v-on:click="deleteArticle(article)" class="btn btn-primary btn-sm">X</button>
+        <button v-on:click="markArticle(article)" v-if="article.readed==false" class="btn btn-info btn-sm">Readed</button>
       </div>
       <div class="panel-body">
         <ul>
@@ -47,6 +48,12 @@
           article_id: comment.article_id,
           comment_id: comment.id
         })
+      },
+      markArticle: function (article) {
+        this.$store.dispatch('MARK_ARTICLE', {
+          id: article.id,
+          readed: true
+        })
       }
     }
   }
@@ -54,4 +61,3 @@
 
 <style scoped>
 </style>
-

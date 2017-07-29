@@ -16,7 +16,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    articles: []
+    articles: [],
   },
   actions: {
     LOAD_ARTICLE_LIST: function ({ commit }) {
@@ -55,6 +55,13 @@ const store = new Vuex.Store({
         console.log(err)
       })
     },
+    MARK_ARTICLE: function ({ commit }, payload) {
+      axios.put('/articles/' + payload.id, {readed: payload.readed} ).then((response) => {
+        commit('ARTICLE_READED', { article: response.data })
+      }, (err) => {
+        console.log(err)
+      })
+    }
   },
   mutations: {
     SET_ARTICLE_LIST: (state, { list }) => {
@@ -64,13 +71,7 @@ const store = new Vuex.Store({
       state.articles.push(article)
     },
     REMOVE_ARTICLE: (state, { article }) => {
-      var all_articles = state.articles
-      // function search(arry, art_id) {
-      //   for (var i=0; i < arry.length; i++) {
-      //     if (arry[i].id === art_id) { return i }
-      //   }
-      // }
-      state.articles.splice(search(all_articles, article.id),1);
+      state.articles.splice(search(state.articles, article.id),1);
     },
     ADD_COMMENT: (state, { comment }) => {
       var comments = state.articles.filter(function(art) { return art.id == comment.article_id})
@@ -78,17 +79,18 @@ const store = new Vuex.Store({
     },
     REMOVE_COMMENT: (state, { comment }) => {
       var article_comments = state.articles.filter(function(art) { return art.id == comment.article_id})[0]
-      // function search(arry, art_id) {
-      //   for (var i=0; i < arry.length; i++) {
-      //     if (arry[i].id === art_id) { return i }
-      //   }
-      // }
       article_comments.comments.splice(search(article_comments.comments, comment.id),1);
+    },
+    ARTICLE_READED: (state, { article }) => {
+      state.articles[search(state.articles, article.id)].readed = true
     }
   },
   getters: {
     openArticles: state => {
-      return state.articles
+      return state.articles.filter(article => !article.readed)
+    },
+    readedArticles: state => {
+      return state.articles.filter(article => article.readed)
     }
   }
 })

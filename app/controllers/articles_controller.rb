@@ -23,10 +23,17 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def update
+    @article = Article.find(params[:id])
+    if @article.update article_params
+      render :json => @article
+    end
+  end
+
   private
 
   def article_params
-    params.require(:article).permit(:content)
+    params.require(:article).permit(:content, :readed)
   end
 
   def authenticate
