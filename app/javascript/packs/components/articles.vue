@@ -1,6 +1,6 @@
 <template>
   <div class="articles container">
-    <art v-for="article in articles" :article="article"></art>
+    <art v-for="article in articles" :article="article" :key="article.id"></art>
     <form v-on:submit="addArticle" >
       <input type="text" v-model="newArticle.content"><br/>
       <input type="submit" value="Submit">
@@ -32,12 +32,9 @@
     },
     methods: {
       addArticle: function (e) {
-        this.$store.dispatch('ADD_NEW_ARTICLE', this.newArticle)
         e.preventDefault()
-        this.newArticle = ""
-      },
-      deleteArticle: function (article) {
-        this.$store.dispatch('DELETE_ARTICLE', article.id)
+        this.$store.dispatch('ADD_NEW_ARTICLE', this.newArticle.content)
+        this.newArticle.content = ""
       }
     }
   }
