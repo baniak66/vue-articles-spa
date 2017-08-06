@@ -2,11 +2,14 @@
   <div class="art">
     <div class="panel panel-default">
       <div class="panel-heading">
-        {{article.content}} [{{article.created_at}}] ({{article.id}})
+        <h3>
+          {{article.title}} [{{article.created_at}}] ({{article.id}})
+        </h3>
         <button v-on:click="deleteArticle(article)" class="btn btn-primary btn-sm">X</button>
         <button v-on:click="markArticle(article)" v-if="article.readed==false" class="btn btn-info btn-sm">Readed</button>
       </div>
       <div class="panel-body">
+        <h4>{{article.content}}</h4>
         <ul>
           <li v-for="comment in article.comments">{{comment.name}} comment no: {{comment.id}}
             <button v-on:click="deleteComment(comment)" class="btn btn-danger btn-sm">X</button>

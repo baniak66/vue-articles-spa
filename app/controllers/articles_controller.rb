@@ -33,7 +33,7 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:content, :readed)
+    params.require(:article).permit(:content, :title, :readed)
   end
 
   def authenticate

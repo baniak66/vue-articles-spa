@@ -4,7 +4,8 @@
       <div class="col-md-12">
         <h3>Add new article</h3>
         <form v-on:submit="addArticle" >
-          <input type="text" v-model="newArticle.content"><br/>
+          <input type="text" v-model="newArticle.title" placeholder="Title"><br/>
+          <input type="text" v-model="newArticle.content" placeholder="Content"><br/>
           <input type="submit" value="Submit">
         </form>
         <hr>
@@ -33,7 +34,8 @@
     data () {
       return {
         newArticle: {
-          content: ""
+          content: "",
+          title: ""
         }
       }
     },
@@ -49,6 +51,7 @@
         e.preventDefault()
         this.$store.dispatch('ADD_NEW_ARTICLE', this.newArticle.content)
         this.newArticle.content = ""
+        this.newArticle.title = ""
       }
     }
   }
