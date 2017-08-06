@@ -11,8 +11,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @article = Article.find(params[:article_id])
-    @comment = @article.comments.find(params[:id])
+    @comment = Comment.find(params[:id])
     if @comment.delete
       render :json => @comment
     end
