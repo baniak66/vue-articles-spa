@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
 
-  before_action :authenticate, only: :create
+  before_action :authenticate
 
   def create
     @article = Article.find(params[:article_id])

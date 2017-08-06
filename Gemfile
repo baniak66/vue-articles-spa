@@ -39,12 +39,19 @@ gem 'omniauth-facebook'
 gem "figaro"
 gem "pg"
 
+group :test do
+  gem 'database_cleaner'
+  gem 'shoulda-matchers', '~> 3.1'
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem 'rspec-rails', '~> 3.5'
+  gem 'factory_girl_rails'
 end
 
 group :development do
