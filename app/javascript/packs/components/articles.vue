@@ -49,7 +49,9 @@
     methods: {
       addArticle: function (e) {
         e.preventDefault()
-        this.$store.dispatch('ADD_NEW_ARTICLE', this.newArticle.content)
+        this.$store.dispatch('ADD_NEW_ARTICLE',
+          {title: this.newArticle.title,
+            content: this.newArticle.content})
         this.newArticle.content = ""
         this.newArticle.title = ""
       }

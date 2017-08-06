@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
 
-  before_action :authenticate, only: :create
+  before_action :authenticate, only: [:create, :destroy]
   def app
   end
 
@@ -19,13 +19,6 @@ class ArticlesController < ApplicationController
   def destroy
     @article = Article.find(params[:id])
     if @article.delete
-      render :json => @article
-    end
-  end
-
-  def update
-    @article = Article.find(params[:id])
-    if @article.update article_params
       render :json => @article
     end
   end

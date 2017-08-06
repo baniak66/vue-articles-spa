@@ -27,7 +27,7 @@ const store = new Vuex.Store({
       })
     },
     ADD_NEW_ARTICLE: ({ commit }, payload) => {
-      axios.post('/articles', {content: payload}).then((response) => {
+      axios.post('/articles', {article: payload}).then((response) => {
         commit('ADD_ARTICLE', { article: response.data })
       }, (err) => {
         console.log(err)
